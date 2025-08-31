@@ -90,6 +90,11 @@ If you're using OAuth providers (Google, GitHub, etc.):
 2. **Authentication doesn't work**: Verify NEXTAUTH_URL and NEXTAUTH_SECRET are set correctly
 3. **Database connection fails**: Ensure MONGODB_URI is correct and accessible
 4. **OAuth redirect errors**: Update your OAuth provider settings with the correct callback URLs
+5. **"Unexpected end of JSON input" error**: 
+   - Check that all environment variables are set correctly
+   - Verify MongoDB connection string is accessible from Netlify
+   - Check Netlify function logs for detailed error messages
+   - Ensure API routes have proper error handling
 
 ### Build Logs
 If you encounter issues, check the build logs in your Netlify dashboard under **Deploys** → **View deploy log**.
