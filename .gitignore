@@ -35,3 +35,5 @@ coverage/
 
 # Optional: ignore public runtime cache
 .next/cache/
+# Local Netlify folder
+.netlify
