@@ -10,7 +10,9 @@
     "migrate-roles": "node scripts/migrate-roles.js"
   },
   "dependencies": {
+    "@netlify/plugin-nextjs": "^5.12.1",
     "bcryptjs": "^2.4.3",
+    "lucide-react": "^0.446.0",
     "mongodb": "^6.3.0",
     "mongoose": "^8.4.1",
     "next": "14.2.5",
@@ -19,8 +21,7 @@
     "react-dom": "18.3.1",
     "recharts": "^2.12.7",
     "swr": "^2.2.5",
-    "zod": "^3.23.8",
-    "lucide-react": "^0.446.0"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
