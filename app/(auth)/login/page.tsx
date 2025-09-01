@@ -31,7 +31,10 @@ export default function LoginPage() {
       if (result?.error) {
         setError('Invalid username or password. Please try again.');
       } else if (result?.ok) {
-        window.location.href = '/dashboard';
+        if (typeof window !== "undefined") {
+          window.location.href = '/dashboard';
+        }
+
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
