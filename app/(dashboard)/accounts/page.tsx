@@ -2,6 +2,7 @@
 import useSWR from 'swr';
 import { useState, useEffect } from 'react';
 import Modal from '@/components/Modal';
+import { Pencil, Trash2, CheckCircle, XCircle, Filter } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then(r => r.json());
 type Acc = { _id: string; name: string; email: string; phone?: string; address?: string };
@@ -173,8 +174,8 @@ export default function AccountsPage() {
                 <td className="px-3 py-2">{(a as any).ownerName || "—"}</td>
                 <td className="px-3 py-2">
                   <div className="flex gap-2">
-                    <button className="btn" onClick={() => openEdit(a)}>Edit</button>
-                    <button className="btn" onClick={() => remove(a)}>Delete</button>
+                    <button className="btn" onClick={() => openEdit(a)} title="Edit"><Pencil size={16} /></button>
+                    <button className="btn" onClick={() => remove(a)} title="Delete"><Trash2 size={16} /></button>
                   </div>
                 </td>
               </tr>

@@ -2,6 +2,7 @@
 import useSWR from 'swr';
 import { useState, useEffect, useMemo } from 'react';
 import Modal from '@/components/Modal';
+import Select from '@/components/Select';
 import { Pencil, Trash2, Search, Filter, Plus, Users, UserCheck, UserX, Mail, Phone, Calendar, Shield } from 'lucide-react';
 
 const fetcher = (u: string) => fetch(u).then(r => r.json());
@@ -239,30 +240,32 @@ export default function UsersPage() {
           </div>
           
           <div>
-            <label className="block text-xs mb-1 text-gray-600">Role Filter</label>
-            <select
-              className="select focus-ring"
+            <Select
+              label="Role Filter"
+              labelClassName="text-xs mb-1 text-gray-600"
               value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-            >
-              <option value="">All Roles</option>
-              <option value="admin">Admin</option>
-              <option value="accountant">Accountant</option>
-              <option value="staff">Staff</option>
-            </select>
+              onChange={setRoleFilter}
+              options={[
+                { value: '', label: 'All Roles' },
+                { value: 'admin', label: 'Admin' },
+                { value: 'accountant', label: 'Accountant' },
+                { value: 'staff', label: 'Staff' }
+              ]}
+            />
           </div>
           
           <div>
-            <label className="block text-xs mb-1 text-gray-600">Status</label>
-            <select
-              className="select focus-ring"
+            <Select
+              label="Status"
+              labelClassName="text-xs mb-1 text-gray-600"
               value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
+              onChange={setStatusFilter}
+              options={[
+                { value: '', label: 'All Status' },
+                { value: 'active', label: 'Active' },
+                { value: 'inactive', label: 'Inactive' }
+              ]}
+            />
           </div>
           
           <button type="button" className="btn" onClick={clearFilters}>
@@ -295,16 +298,17 @@ export default function UsersPage() {
           
           <div className="flex items-center gap-2">
             <label className="text-sm font-medium">Show:</label>
-            <select 
-              value={pageSize} 
-              onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-              className="select focus-ring text-sm"
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={50}>50</option>
-            </select>
+            <Select
+              value={pageSize.toString()}
+              onChange={(value) => handlePageSizeChange(Number(value))}
+              options={[
+                { value: '5', label: '5' },
+                { value: '10', label: '10' },
+                { value: '20', label: '20' },
+                { value: '50', label: '50' }
+              ]}
+              className="w-20"
+            />
           </div>
         </div>
       )}
@@ -371,12 +375,6 @@ export default function UsersPage() {
                   
                   <td className="px-4 py-4">
                     <div className="space-y-1">
-                      {user.phone && (
-                        <div className="flex items-center text-gray-600">
-                          <Phone size={14} className="mr-2" />
-                          <span className="text-sm">{user.phone}</span>
-                        </div>
-                      )}
                       {user.birthday && (
                         <div className="flex items-center text-gray-600">
                           <Calendar size={14} className="mr-2" />
@@ -496,16 +494,16 @@ export default function UsersPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">Role</label>
-            <select
-              className="input w-full"
+            <Select
+              label="Role"
               value={form.role}
-              onChange={(e) => setForm({ ...form, role: e.target.value })}
-            >
-              <option value="staff">Staff</option>
-              <option value="accountant">Accountant</option>
-              <option value="admin">Admin</option>
-            </select>
+              onChange={(value) => setForm({ ...form, role: value })}
+              options={[
+                { value: 'staff', label: 'Staff' },
+                { value: 'accountant', label: 'Accountant' },
+                { value: 'admin', label: 'Admin' }
+              ]}
+            />
           </div>
 
           <div>
