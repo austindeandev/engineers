@@ -107,6 +107,7 @@ export default function CardLinksPage() {
   };
 
   const save = async () => {
+    console.log('Saving', form);
     if (!form.email || !form.cardNumber || !form.from || !form.to) {
       setError('Fill in all required fields');
       return;
@@ -136,7 +137,7 @@ export default function CardLinksPage() {
       setOpen(false);
       mutate();
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message.error || 'Failed to save Card Link');
     } finally {
       setSaving(false);
     }
@@ -437,7 +438,7 @@ export default function CardLinksPage() {
       >
         <div className="space-y-3">
           {error && <p className="text-red-600 text-sm">{error}</p>}
-          <input className="email" placeholder="Email" value={form.email} onChange={e=>setForm({ ...form, email: e.target.value })} />
+          <input className="input" type='email' placeholder="Email" value={form.email} onChange={e=>setForm({ ...form, email: e.target.value })} />
           <input className="input" placeholder="Card Number(...-xxxx)" value={form.cardNumber} onChange={e=>setForm({ ...form, cardNumber: e.target.value })} />
           <input className="input" placeholder="Site" value={form.site} onChange={e=>setForm({ ...form, site: e.target.value })} />
           <input className="input" type="date" value={form.from} onChange={(e) => setForm({ ...form, from: e.target.value })} />
@@ -456,7 +457,7 @@ export default function CardLinksPage() {
               type="button"
               className="btn"
               onClick={save}
-              disabled={!form.email || !form.cardNumber || !form.from || !form.to || saving}
+              // disabled={!form.email || !form.cardNumber || !form.from || !form.to || saving}
             >
               {saving
                 ? editing

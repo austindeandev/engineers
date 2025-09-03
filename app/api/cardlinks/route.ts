@@ -126,7 +126,7 @@ export async function POST(req: Request) {
   if (!session) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   await dbConnect();
   const body = await req.json();
-  if (!body.emil ||  !body.cardNumber || !body.from || !body.to) {
+  if (!body.email ||  !body.cardNumber || !body.from || !body.to) {
     return NextResponse.json({ error: 'Fill in all required fields' }, { status: 400 });
   }
   const t = await CardLink.create({ userId: (session.user as any).id, from: new Date(body.from), to: new Date(body.to), site: body.site,
