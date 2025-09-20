@@ -29,9 +29,9 @@ export default function RoleGuard({ children }: { children: React.ReactNode }) {
       return; // Allow access to all pages
     }
     
-    // Staff users can access dashboard, accounts, transactions, profile
+    // Staff users can access dashboard, accounts, transactions, profile, weekly-plan
     if (userRole === 'staff') {
-      const allowedPaths = ['/dashboard', '/accounts', '/transactions', '/profile', '/cardlink'];
+      const allowedPaths = ['/dashboard', '/accounts', '/transactions', '/profile', '/cardlink', '/weekly-plan'];
       if (!allowedPaths.includes(pathname)) {
         router.push('/dashboard');
         return;
