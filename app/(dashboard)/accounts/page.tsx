@@ -1,5 +1,6 @@
 'use client';
 import useSWR from 'swr';
+import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import Modal from '@/components/Modal';
 import { Pencil, Trash2, CheckCircle, XCircle, Filter } from 'lucide-react';
@@ -23,7 +24,12 @@ export default function AccountsPage() {
   const [pageSize, setPageSize] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
-  
+  const { data: session } = useSession();
+  const role = (session?.user as any)?.role as 'admin' | 'staff' | undefined;
+  const isAdmin = role === 'admin';
+  const [userId, setUserId] = useState('');
+
+
   // Debounce search term
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -35,10 +41,13 @@ export default function AccountsPage() {
   }, [searchTerm]);
   
   const { data, mutate, isLoading } = useSWR<PaginationData>(
-    `/api/accounts?page=${currentPage}&limit=${pageSize}&search=${encodeURIComponent(debouncedSearch)}`, 
+    `/api/accounts?page=${currentPage}&limit=${pageSize}&search=${encodeURIComponent(debouncedSearch)}${isAdmin?`&userId=${userId}`:''}`, 
     fetcher
   );
   
+  const { data: usersData } = useSWR<{ users: any[]; pagination: any } | null>(isAdmin ? '/api/users' : null, fetcher);
+  const users = usersData?.users || [];
+
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Acc | null>(null);
   const [form, setForm] = useState({ name: '', email: '', phone: '', address: '' });
@@ -109,6 +118,25 @@ export default function AccountsPage() {
           )}
         </div>
         
+        { isAdmin? 
+          (
+            <div className="flex items-center gap-2">
+              <label className="block text-xs mb-1 text-gray-600">User</label>
+              <select
+                className="select focus-ring"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
+              >
+                <option value="">All users</option>
+                {(users || []).map((u: any) => (
+                  <option key={u._id} value={u._id}>
+                    {u.name || u.email}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ):''
+        }
         {/* Page Size Selector */}
         <div className="flex items-center gap-2">
           <label className="text-sm font-medium">Show:</label>

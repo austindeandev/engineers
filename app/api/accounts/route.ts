@@ -13,11 +13,12 @@ export async function GET(req: Request) {
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '10');
   const search = searchParams.get('search') || '';
+  const userId = searchParams.get('userId') || '';
   const skip = (page - 1) * limit;
   
   await dbConnect();
   const isAdmin = (session.user as any).role === 'admin';
-  const query: any = isAdmin ? {} : { createdBy: (session.user as any).id };
+  const query: any = isAdmin ? (userId? {createdBy: userId }: {}) : { createdBy: (session.user as any).id };
   
   // Add search functionality
   if (search.trim()) {
@@ -26,7 +27,7 @@ export async function GET(req: Request) {
       { name: searchRegex },
       { email: searchRegex },
       { phone: searchRegex },
-      { address: searchRegex }
+      { address: searchRegex },
     ];
   }
   
